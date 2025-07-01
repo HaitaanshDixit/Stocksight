@@ -1,0 +1,8 @@
+{
+    "val_loss": 0.0008631126838736236,
+    "val_mae": 0.02462560310959816,
+    "train_loss": 0.0009503356995992362,
+    "train_mae": 0.022563941776752472,
+    "epochs": 45,
+    "model_name": "Reliance_model.keras"
+}
