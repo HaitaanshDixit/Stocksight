@@ -1,65 +1,59 @@
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_pacf
 import matplotlib.pyplot as plt
+import streamlit as st
+
 
 def plot_graph(df_clean):
-
     # Closing prices for 8 years
-    plt.figure(figsize=(12,5))
-    plt.plot(df_clean.index, df_clean['Close'], color='blue')
-    plt.title("Stock Prices of Last 8 Years")
-    plt.xlabel("Date")
-    plt.ylabel("Closing Prices")
-    plt.show()
-
-    print("\n")
+    fig1, ax1 = plt.subplots(figsize=(12, 5))
+    ax1.plot(df_clean.index, df_clean['Close'], color='blue')
+    ax1.set_title("Stock Prices of Last 10 Years")
+    ax1.set_xlabel("Date")
+    ax1.set_ylabel("Closing Prices")
+    st.pyplot(fig1)
 
     # Trend, Seasonality, Residual Plot
     close_series = df_clean["Close"].dropna()
-    decomposition = seasonal_decompose(close_series, model='multiplicative', period=252)
 
-    plt.figure(figsize=(12,8))
+    # Only decompose if enough data is available
+    if len(close_series) >= 504:
+        decomposition = seasonal_decompose(close_series, model='multiplicative', period=252)
 
-    plt.subplot(3, 1, 1)
-    plt.plot(decomposition.trend, color='black')
-    plt.title("Trend")
+        fig2, axs = plt.subplots(3, 1, figsize=(12, 8))
+        axs[0].plot(decomposition.trend, color='black')
+        axs[0].set_title("Trend")
 
-    print("\n\n")
+        axs[1].plot(decomposition.seasonal, color='orange')
+        axs[1].set_title("Seasonality")
 
-    plt.subplot(3, 1, 2)
-    plt.plot(decomposition.seasonal, color='orange')
-    plt.title("Seasonality")
+        axs[2].plot(decomposition.resid, color='red')
+        axs[2].set_title("Residual (Noise)")
 
-    print("\n\n")
+        plt.tight_layout()
+        st.pyplot(fig2)
+    else:
+        st.warning("❗ Not enough data points for seasonal decomposition (min 504 required).")
 
-    plt.subplot(3, 1, 3)
-    plt.plot(decomposition.resid, color='red')
-    plt.title("Residual (Noise)")
-    plt.show()
-
-    print("\n\n")
     # PACF Plot
-    plt.figure(figsize=(12, 5))
-    plot_pacf(close_series, lags=30, method='ywm')
-    plt.title("Partial Autocorrelation Function (PACF)")
-    plt.show()
-
-    print("\n\n\n")
+    fig3, ax3 = plt.subplots(figsize=(12, 5))
+    plot_pacf(close_series, lags=30, method='ywm', ax=ax3)
+    ax3.set_title("Partial Autocorrelation Function (PACF)")
+    st.pyplot(fig3)
 
     # 20-day moving average
     df_clean['MA_20'] = df_clean['Close'].rolling(window=20).mean()
 
-    # Plotting
-    plt.figure(figsize=(12, 6))
-    plt.plot(df_clean['Close'], label='Close Price', linewidth=1.5)
-    plt.plot(df_clean['MA_20'], label='20-Day Moving Average', color='orange', linewidth=2)
-    plt.title('Close Price vs 20-Day Moving Average')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.legend()
-    plt.grid(True)
+    fig4, ax4 = plt.subplots(figsize=(12, 6))
+    ax4.plot(df_clean['Close'], label='Close Price', linewidth=1.5)
+    ax4.plot(df_clean['MA_20'], label='20-Day Moving Average', color='orange', linewidth=2)
+    ax4.set_title('Close Price vs 20-Day Moving Average')
+    ax4.set_xlabel('Date')
+    ax4.set_ylabel('Price')
+    ax4.legend()
+    ax4.grid(True)
     plt.tight_layout()
-    plt.show()
+    st.pyplot(fig4)
 
 # training data, validation data and test data
 
