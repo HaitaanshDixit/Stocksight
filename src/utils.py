@@ -41,13 +41,14 @@ def plot_graph(df_clean):
     ax3.set_title("Partial Autocorrelation Function (PACF)")
     st.pyplot(fig3)
 
-    # 20-day moving average
-    df_clean['MA_20'] = df_clean['Close'].rolling(window=20).mean()
+    # 30-day moving average
+    df_clean = df_clean.copy()
+    df_clean['MA_30'] = df_clean['Close'].rolling(window=30).mean()
 
     fig4, ax4 = plt.subplots(figsize=(12, 6))
     ax4.plot(df_clean['Close'], label='Close Price', linewidth=1.5)
-    ax4.plot(df_clean['MA_20'], label='20-Day Moving Average', color='orange', linewidth=2)
-    ax4.set_title('Close Price vs 20-Day Moving Average')
+    ax4.plot(df_clean['MA_30'], label='30-Day Moving Average', color='orange', linewidth=2)
+    ax4.set_title('Close Price vs 30-Day Moving Average')
     ax4.set_xlabel('Date')
     ax4.set_ylabel('Price')
     ax4.legend()

@@ -1,10 +1,10 @@
-📈 Stocksight: Stock Predictor (1-30 days)
+📈 Stocksight: Stock Predictor (1-15 days)
 
 It is a deep learning-powered stock market forecasting tool that predicts the next days of stock price movement based on historical data. Built using LSTM neural networks, it leverages deep learning to identify trends and generate forward-looking insights for traders and analysts.
 
 🔍 Features:
 
-Predicts next 1-30 days (according to user request) of stock closing prices.
+Predicts next 1-15 days (according to user request) of stock closing prices.
 
 Takes custom stock tickers via yfinance or CSV input
 
