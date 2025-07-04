@@ -129,6 +129,7 @@ print(f"🔗 Public URL: {public_url}")
 os.system("streamlit run main.py --server.port 8501 > /dev/null 2>&1 &")
 """
 
+
 import os
 import time
 import json
@@ -155,7 +156,7 @@ def load_scaler(path):
     return joblib.load(path)
 
 # Inputs
-stock = st.selectbox("Choose Stock", ["RELIANCE.NS", "HDFCBANK.NS", "TATAMOTORS.NS"], index=None, placeholder="Click to choose stock")
+stock = st.selectbox("Choose Stock", ["RELIANCE.NS", "HDFCBANK.NS", "TATAMOTORS.NS", "TITAN.NS", "HCLTECH.NS"], index=None, placeholder="Click to choose stock")
 next_days = st.number_input("Enter number of future days to predict (max 15)", min_value=1, step=1, placeholder="Enter here")
 
 if next_days > 15:
@@ -178,6 +179,16 @@ stock_assets = {
         "model_file": "saved_models/TATA_model.keras",
         "scaler_file": "saved_models/tata_scaler.save",
         "metrics_file": "model_metrics/tata_model_metrics.json"
+    },
+    "TITAN.NS": {
+        "model_file": "saved_models/TITAN_model.keras",
+        "scaler_file": "saved_models/titan_scaler.save",
+        "metrics_file": "model_metrics/titan_model_metrics.json"
+    },
+    "HCLTECH.NS": {
+        "model_file": "saved_models/HCL_model.keras",
+        "scaler_file": "saved_models/hcl_scaler.save",
+        "metrics_file": "model_metrics/HCL_model_metrics.json"
     }
 }
 
@@ -231,6 +242,7 @@ elif stock in stock_assets:
 
         for _ in range(next_days):
             next_pred = model.predict(current_input, verbose=0)[0][0]
+            next_pred += np.random.normal(0,  0.02*next_pred)  # Added noise here
             predictions.append(next_pred)
             next_input = np.append(current_input[:, 1:, :], [[[next_pred]*3]], axis=1)
             current_input = next_input
@@ -270,3 +282,4 @@ public_url = ngrok.connect(8501)
 print(f"🔗 Public URL: {public_url}")
 
 os.system("streamlit run main.py --server.port 8501 > /dev/null 2>&1 &")
+

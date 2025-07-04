@@ -1,0 +1,8 @@
+{
+    "val_loss": 0.0007115316693671048,
+    "val_mae": 0.0218060202896595,
+    "train_loss": 0.0011207435745745897,
+    "train_mae": 0.02401374652981758,
+    "epochs": 58,
+    "model_name": "TITAN_model.keras"
+}
