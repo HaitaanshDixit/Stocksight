@@ -275,11 +275,10 @@ else:
 
 #---------------------------------------------------------------------------------------------------  
 
-ngrok.kill()
-time.sleep(2)
-ngrok.set_auth_token("2z9A28wqC8QpClwA08VkvAvOzsL_5CVDfosVWkQGfsLdajzw7")
-public_url = ngrok.connect(8501)
-print(f"🔗 Public URL: {public_url}")
-
-os.system("streamlit run main.py --server.port 8501 > /dev/null 2>&1 &")
+#ngrok.kill()
+#time.sleep(2)
+#ngrok.set_auth_token("2z9A28wqC8QpClwA08VkvAvOzsL_5CVDfosVWkQGfsLdajzw7")
+#public_url = ngrok.connect(8501)
+#print(f"🔗 Public URL: {public_url}")
+#os.system("streamlit run main.py --server.port 8501 > /dev/null 2>&1 &")
 
